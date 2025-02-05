@@ -8,9 +8,9 @@
 📦 jogakzip-backend
 ┣ 📂 jogakzip
 ┃ ┣ 📂 http
-┃ ┃ ┣ 📄 groups.http # 그룹 관련 API 테스트 파일
-┃ ┃ ┣ 📄 posts.http # 게시글 관련 API 테스트 파일
-┃ ┃ ┣ 📄 comments.http # 댓글 관련 API 테스트 파일 
+┃ ┃ ┣ 📄 groups.http # 그룹 관련 API 테스트 파일  
+┃ ┃ ┣ 📄 posts.http # 게시글 관련 API 테스트 파일  
+┃ ┃ ┣ 📄 comments.http # 댓글 관련 API 테스트 파일   
 ┃ ┃ ┗ 📄 image.http # 이미지 관련 API 테스트 파일 
 ┃ ┣ 📂 node_modules # Node.js 의존성 패키지 (자동 생성) 
 ┃ ┣ 📂 prisma 
