@@ -4,7 +4,11 @@
 ### 아키텍쳐 및 폴더구조
 ---
 📦 jogakzip-backend
+
+
  ┣ 📂 jogakzip
+
+ 
  ┃ ┣ 📂 http
  ┃ ┃ ┣ 📄 groups.http         # 그룹 관련 API 테스트 파일
  ┃ ┃ ┣ 📄 posts.http          # 게시글 관련 API 테스트 파일
