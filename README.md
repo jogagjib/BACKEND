@@ -53,6 +53,7 @@ ex. 브랜치 작성법, 이슈 생성 및 관리 등
 
 
 ### 코드 컨벤션
+---
 #### Naming
 모든 변수, 코드, 클래스 등은 camelCase를 기준으로 이름을 지음
 클래스나 인터페이스는 대문자로 시작함 (ex. class UserController {})상수는 _와 대문자로 표현 (ex. const MAX_LIMIT = 100;)
