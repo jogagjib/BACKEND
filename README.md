@@ -5,7 +5,7 @@
 ---
 ## 📂 아키텍처 및 폴더 구조
 
-📦 jogakzip-backend
+📦 jogakzip-backend  
 ┣ 📂 jogakzip  
 ┃ ┣ 📂 http  
 ┃ ┃ ┣ 📄 groups.http # 그룹 관련 API 테스트 파일  
