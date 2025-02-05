@@ -12,10 +12,10 @@
 ┃ ┃ ┗ 📄 image.http # 이미지 관련 API 테스트 파일  
 ┃ ┣ 📂 node_modules # Node.js 의존성 패키지 (자동 생성)  
 ┃ ┣ 📂 prisma  
-┃ ┃ ┣ 📂 migrations # 데이터베이스 스키마 변경 이력  
-┃ ┃ ┗ 📄 schema.prisma # 데이터베이스 모델 정의 (Prisma 사용)  
+┃ ┃ ┣ 📂 migrations # 스키마 파일과 데이터베이스 간의 차이를 기록 (데이터베이스 버전관리 파일)  
+┃ ┃ ┗ 📄 schema.prisma # 데이터베이스 모델 정의  
 ┃ ┣ 📂 data  
-┃ ┃ ┗ 📄 postgresql_dump.sql # PostgreSQL 초기화용 SQL 덤프 파일  
+┃ ┃ ┗ 📄 postgresql_dump.sql # PostgreSQL 초기화용 SQL 덤프 파일 (초기 데이터 설정 시 사용) 
 ┃ ┣ 📄 .env # 환경 변수 파일 (DB URL, JWT 키 등)  
 ┃ ┣ 📄 app.js # Express 애플리케이션 엔트리포인트  
 ┃ ┣ 📄 package.json # 프로젝트 의존성 및 스크립트 정의  
