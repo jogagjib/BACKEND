@@ -43,6 +43,116 @@
 
 ### 예외처리
 ---
+✅ 최종 요약
+동기 코드: try-catch 사용
+비동기 코드: .catch() 또는 try-catch 블록 활용
+전역 예외 처리: uncaughtException, unhandledRejection
+커스텀 에러 클래스로 오류 구분
+에러 메시지 및 로깅 시스템 활용
+---
+1️⃣ try-catch 블록 활용 (동기 코드)
+동기적인 코드에서 오류가 발생할 수 있는 구문은 반드시 try-catch로 감싸는 것이 좋음
+try {
+  const data = fs.readFileSync('./file.txt', 'utf-8');
+  console.log(data);
+} catch (error) {
+  console.error('파일 읽기 오류:', error.message);
+}
+ 
+ ✅ 컨벤션
+오류 객체(error)의 message 속성을 로깅
+필요한 경우 커스텀 에러 메시지를 포함
+
+ 
+2️⃣ 프로미스 기반 코드에서 .catch 사용
+프로미스를 사용할 때는 반드시 .catch를 통해 에러 처리
+someAsyncFunction()
+  .then(response => {
+    console.log(response);
+  })
+  .catch(error => {
+    console.error('비동기 처리 중 오류:', error.message);
+  });
+
+✅ 컨벤션
+.then() 체인 마지막에 .catch()를 항상 명시
+에러 메시지를 로깅
+
+
+3️⃣ async/await와 try-catch 사용 (비동기 코드)
+async/await 문법에서는 반드시 try-catch로 오류 처리
+ async function fetchData() {
+  try {
+    const response = await axios.get('https://api.example.com/data');
+    console.log(response.data);
+  } catch (error) {
+    console.error('데이터 요청 실패:', error.message);
+  }
+}
+✅ 컨벤션
+모든 await 구문은 반드시 try-catch 블록으로 감쌈
+에러 로깅 시 적절한 메시지를 포함
+
+
+4️⃣ 전역 예외 처리 (Uncaught Exception)
+예상치 못한 오류를 처리하기 위해 process.on을 설정
+process.on('uncaughtException', (error) => {
+  console.error('예상치 못한 오류 발생:', error.message);
+  process.exit(1); // 필요한 경우 프로세스 종료
+});
+✅ 컨벤션
+process.exit(1)로 애플리케이션을 종료함
+로그 저장 시스템과 연계하는 것이 좋음
+
+
+5️⃣ Promise Rejection 핸들러
+unhandledRejection 이벤트 처리
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Promise Rejection:', reason);
+});
+✅ 컨벤션
+process.exit() 호출 여부는 서비스 환경에 맞게 결정
+
+
+6️⃣ 커스텀 에러 클래스를 사용한 에러 핸들링
+오류의 종류에 따라 커스텀 에러 클래스 정의
+class ValidationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}
+
+function validateInput(input) {
+  if (!input) {
+    throw new ValidationError('입력 값이 필요합니다.');
+  }
+}
+✅ 컨벤션
+오류 구분이 필요한 경우 커스텀 에러 클래스를 도입
+오류 이름(this.name)을 명확히 설정
+
+
+7️⃣ 에러 메시지 관리
+에러 메시지는 상수 또는 설정 파일에서 관리
+const ERROR_MESSAGES = {
+  MISSING_PARAMETER: '필수 파라미터가 누락되었습니다.',
+  INVALID_USER: '잘못된 사용자입니다.',
+};
+
+
+8️⃣ 로깅 시스템 통합
+winston 또는 pino와 같은 로깅 라이브러리를 활용해 에러 로그 관리
+const winston = require('winston');
+
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'error.log' })
+  ],
+});
+
+logger.error('에러 메시지');
 
 
 
