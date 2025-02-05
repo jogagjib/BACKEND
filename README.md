@@ -39,7 +39,7 @@
 ┃ ┃ ┗ 📄 app.js  # Express 애플리케이션 엔트리포인트  
 ┃ ┣ 📄 .env # 환경 변수 파일 (DB URL, JWT 키 등)  
 ┃ ┣ 📄 package.json # 프로젝트 의존성 및 스크립트 정의  
-┃ ┗ 📄 package-lock.json # 의존성 버전 잠금 파일  
+┗ ┗ 📄 package-lock.json # 의존성 버전 잠금 파일  
 
 ### 예외처리
 ---
