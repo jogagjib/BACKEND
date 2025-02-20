@@ -1,0 +1,30 @@
+### 1. 댓글 등록 (POST /api/posts/{postId}/comments)
+POST http://localhost:4000/api/posts/1/comments
+Content-Type: application/json
+
+{
+  "nickname": "User1",
+  "content": "이것은 테스트 댓글입니다.",
+  "password": "test123"
+}
+
+### 2. 댓글 목록 조회 (GET /api/posts/{postId}/comments) / 파라미터 추가
+GET http://localhost:4000/api/posts/1/comments
+
+### 3. 댓글 수정 (PUT /api/comments/{commentId})
+PUT http://localhost:4000/api/comments/1
+Content-Type: application/json
+
+{
+  "nickname": "UpdatedUser",
+  "content": "수정된 댓글입니다.",
+  "password": "test123"
+}
+
+### 4. 댓글 삭제 (DELETE /api/comments/{commentId})
+DELETE http://localhost:4000/api/comments/1
+Content-Type: application/json
+
+{
+  "password": "test123"
+}

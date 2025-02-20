@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Group {
+  id            Int      @id @default(autoincrement()) // 기본키, 자동 증가
+  name          String // 그룹 이름
+  imageUrl      String? // 그룹 이미지 (선택사항)
+  description   String? // 그룹 설명 (선택사항)
+  isPublic      Boolean  @default(true)
+  password      String? // 비공개 그룹일 경우 비밀번호
+  likeCount     Int      @default(0) // 좋아요 개수
+  createdAt     DateTime @default(now()) // 생성 시간
+  updatedAt     DateTime @updatedAt // 업데이트 시간 자동 반영
+  memoryBadge   Boolean  @default(false) // 메모리 배지
+  creationBadge Boolean  @default(false) // 생성 배지
+  likeBadge     Boolean  @default(false) // 좋아요 배지
+
+  post Post[] // 1:N 관계 설정 (Group -> Posts)
+}
+
+model Post {
+  id           Int       @id @default(autoincrement()) // 게시글 ID
+  groupId      Int // 그룹 ID (FK)
+  nickname     String // 작성자 닉네임
+  title        String // 제목
+  content      String // 게시글 내용
+  imageUrl     String? // 이미지 url
+  postPassword String // 게시글 수정·삭제용 패스워드 추가
+  isPublic     Boolean   @default(true) // 공개 여부
+  createdAt    DateTime  @default(now()) // 업데이트 시간 자동 반영
+  updatedAt    DateTime  @updatedAt
+  tags         Json // 태그
+  location     String? // 위치
+  moment       DateTime? // 시간
+  likeCount    Int       @default(0) // 좋아요 수
+  commentCount Int       @default(0) // 댓글 수
+
+  // 관계 설정 (Group 모델과 연결)
+  group   Group     @relation(fields: [groupId], references: [id])
+  commnet Comment[] // 1:N 관계 설정 (Post -> Comment)
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement()) // 댓글 고유 식별자 (자동 증가)
+  postId    Int // 게시글 ID (FK)
+  nickname  String // 작성자 닉네임
+  content   String // 댓글 내용
+  password  String // 댓글 비밀번호
+  likeCount Int      @default(0) // 댓글 공감 수 (기본값: 0)
+  createdAt DateTime @default(now()) // 댓글 생성 시간
+
+  // 관계 설정 (Post 모델과 연결)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
