@@ -1,0 +1,60 @@
+### 1. 게시글 등록 (POST /api/groups/{groupId}/posts)
+POST http://localhost:4000/api/groups/1/posts
+Content-Type: application/json
+
+{
+    "nickname": "닉네임",
+    "title": "타이틀",
+    "content": "콘텐츠",
+    "postPassword": "post123",
+    "groupPassword": "secure123",
+    "imageUrl": "https://example.com/image.png",
+    "tags": [ "사진", "조각집" ],
+    "location": "서울시 강남구",
+    "moment": "2024-02-21",
+    "isPublic": true
+}
+
+### 2. 게시글 목록 조회 (GET /api/groups/{groupId}/posts)
+GET http://localhost:4000/api/groups/1/posts
+
+### 3. 게시글 수정 (PUT /api/posts/{postId})
+PUT http://localhost:4000/api/posts/1
+Content-Type: application/json
+
+{
+  	"nickname": "update",
+    "title": "title",
+    "content": "content",
+    "postPassword": "update123",
+    "imageUrl": "https://example.com/image.png",
+    "tags": [ "tag1", "tag2" ],
+    "location": "seoul",
+    "moment": "2025-02-16T00:00:00.000Z",
+    "isPublic": true
+}
+
+### 4. 게시글 삭제 (DELETE /api/posts/{postId})
+DELETE http://localhost:4000/api/posts/1
+Content-Type: application/json
+
+{
+  "postPassword": "update123"
+}
+
+### 5. 게시글 상세 정보 조회 (GET /api/posts/{postId})
+GET http://localhost:4000/api/posts/1
+
+### 6. 게시글 조회 권한 확인 (POST /api/posts/{postId}/verify-password)
+POST http://localhost:4000/api/posts/1/verify-password
+Content-Type: application/json
+
+{
+    "password": "update123"
+}
+
+### 7. 게시글 공감하기 (POST api/posts/{postId}/like)
+POST http://localhost:4000/api/posts/1/like
+
+### 8. 게시글 공개 여부 확인 (GET api/posts/{postId}/is-public)
+GET http://localhost:4000/api/posts/1/is-public
