@@ -15,6 +15,15 @@ const postService = {
         if (group.password && group.password !== postData.groupPassword) {
             throw new Error("그룹 비밀번호가 올바르지 않습니다.");
         }
+        // 이미지 URL 검증
+        if (postData.imageUrl) {
+            const imageExists = await prisma.image.findUnique({
+                where: { url: postData.imageUrl }
+            });
+            if (!imageExists) {
+                throw new Error("이미지 URL이 존재하지 않습니다.");
+            }
+        }
 
         // 게시글 생성
         return await prisma.post.create({
@@ -56,7 +65,7 @@ const postService = {
             orderBy: { id: "asc" },
             skip: (page - 1) * pageSize,
             take: pageSize,
-            include: { group: { select: { password: true } } }, // ✅ 그룹 비밀번호 포함
+            include: { group: { select: { password: true } } }, // 그룹 비밀번호 포함
         });
 
         // 총 페이지 수 계산
@@ -70,7 +79,7 @@ const postService = {
                 id: post.id,
                 nickname: post.nickname,
                 title: post.title,
-                imageUrl: post.imageUrl,
+                imageUrl: post.image,
                 tags: post.tags,
                 location: post.location,
                 moment: post.moment,
@@ -83,6 +92,14 @@ const postService = {
     },
 
     async updatePost(postId, updateData) {
+        if (updateData.imageUrl) {
+            const imageExists = await prisma.image.findUnique({
+                where: { url: updateData.imageUrl }
+            });
+            if (!imageExists) {
+                throw new Error("이미지 URL이 존재하지 않습니다.");
+            }
+        }
         return await prisma.post.update({
             where: { id: parseInt(postId) },
             data: updateData
@@ -100,14 +117,14 @@ const postService = {
         if (post.postPassword !== postPassword) {
             return false; // 비밀번호가 일치하지 않음
         }
-    
+
         await prisma.post.delete({
             where: { id: parseInt(postId) }
         });
-    
+
         return true;
     },
-    
+
 
     async getPostById(postId) {
         const post = await prisma.post.findUnique({
@@ -142,26 +159,26 @@ const postService = {
             where: { id: parseInt(postId) },
             select: { postPassword: true }
         });
-    
+
         if (!post) {
             return { status: 404, message: "게시글을 찾을 수 없습니다." };
         }
-    
+
         if (!post.postPassword || !postPassword) {
             return { status: 401, message: "비밀번호가 틀렸습니다" };
         }
-    
+
         if (String(post.postPassword).trim() !== String(postPassword).trim()) {
             return { status: 401, message: "비밀번호가 틀렸습니다" };
         }
-    
+
         return { status: 200, message: "비밀번호가 확인되었습니다" };
     },
 
     async likePost(postId) {
         // 게시글 존재 여부 확인
         const post = await prisma.post.findUnique({
-        where: { id: parseInt(postId) }
+            where: { id: parseInt(postId) }
         });
         if (!post) {
             return { status: 404, message: "존재하지 않습니다" };
@@ -178,10 +195,10 @@ const postService = {
         const numericPostId = parseInt(postId); // 문자열을 숫자로
         if (isNaN(numericPostId)) {
             throw new Error("Invalid postId"); // 숫자가 아닌 경우 에러 발생
-    }
+        }
         const post = await prisma.post.findUnique({
             where: { id: parseInt(postId) },
-            select: { id:true, isPublic: true }
+            select: { id: true, isPublic: true }
         });
         return post;
     }

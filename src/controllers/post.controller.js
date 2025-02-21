@@ -22,7 +22,7 @@ const postController = {
             res.status(400).json({ message: "잘못된 요청입니다." });
         }
     },
-    
+
     // 2. 게시글 목록 조회
     async getPosts(req, res) {
         try {
@@ -58,18 +58,18 @@ const postController = {
                 imageUrl, tags, location, moment, isPublic
             } = req.body;
 
-            if (!nickname || !title || !content || !postPassword || !imageUrl || 
+            if (!nickname || !title || !content || !postPassword || !imageUrl ||
                 !tags || !location || !moment || isPublic === undefined) {
-                    return res.status(400).json({ message: "잘못된 요청입니다" });
-                }
-                
+                return res.status(400).json({ message: "잘못된 요청입니다" });
+            }
+
             const post = await postService.getPostById(postId);
             if (!post) {
                 return res.status(404).json({ message: "존재하지 않습니다" });
             }
             if (post.postPassword !== postPassword) {
                 return res.status(403).json({ message: "비밀번호가 틀렸습니다" });
-            }           
+            }
 
             const updateData = {
                 nickname, title, content, postPassword,
@@ -85,13 +85,13 @@ const postController = {
                 isPublic: updatedPost.isPublic, likeCount: updatedPost.likeCount,
                 commentCount: updatedPost.commentCount, createdAt: updatedPost.createdAt.toISOString()
             });
-            
+
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "서버 오류가 발생했습니다" });
         }
     },
-    
+
     // 4. 게시글 삭제
     async deletePost(req, res) {
         try {
@@ -109,8 +109,8 @@ const postController = {
             if (!isDeleted) {
                 return res.status(403).json({ message: "비밀번호가 틀렸습니다" });
             }
-    
-            res.status(200).json({ message: "게시글 삭제 성공"});
+
+            res.status(200).json({ message: "게시글 삭제 성공" });
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "서버 오류가 발생했습니다" });
@@ -122,7 +122,7 @@ const postController = {
         try {
             const { postId } = req.params;
             const post = await postService.getPostById(postId);
-    
+
             if (!post) {
                 return res.status(400).json({ error: "잘못된 요청입니다" });
             }
@@ -141,9 +141,9 @@ const postController = {
             if (!postPassword) {
                 return res.status(401).json({ message: "비밀번호가 틀렸습니다" });
             }
-    
+
             const result = await postService.verifyPostPassword(postId, postPassword);
-    
+
             return res.status(result.status).json({ message: result.message });
         } catch (error) {
             console.error(error);
@@ -159,7 +159,7 @@ const postController = {
             const post = await postService.getPostById(postId);
             if (!post) {
                 return res.status(404).json({ message: "존재하지 않습니다" });
-            }                       
+            }
             return res.status(result.status).json({ message: result.message });
         } catch (error) {
             console.error("Like Post Error:", error);
@@ -175,7 +175,7 @@ const postController = {
             if (!post) {
                 return res.status(404).json({ message: "게시글을 찾을 수 없습니다." });
             }
-            res.json(post); 
+            res.json(post);
         } catch (error) {
             res.status(500).json({ message: "서버 오류가 발생했습니다." });
         }
