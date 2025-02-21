@@ -16,7 +16,7 @@ class GroupController {
   async getGroup(req, res) {
     try {
       const groupId = parseInt(req.params.id); // URL에서 그룹 ID 가져오기
-      
+
       // 요청 유효성 검사 (숫자가 아닌 경우)
       if (isNaN(groupId)) {
         return res.status(400).json({ message: "잘못된 요청입니다" });
@@ -29,8 +29,11 @@ class GroupController {
       if (!group) {
         return res.status(404).json({ message: "존재하지 않습니다" });
       }
-      // 그룹 데이터를 응답으로 반환
-      res.json(group);
+      // `group.imageUrl`을 `Image` 테이블에서 조회된 값으로 반환
+      res.json({
+        ...group,
+        imageUrl: group.image ? group.image.url : null
+      });
     } catch (error) {
       // 오류 발생 시 500 응답
       res.status(500).json({ error: '데이터 조회 실패' });
@@ -42,7 +45,7 @@ class GroupController {
     try {
       const groupId = parseInt(req.params.id); // URL에서 그룹 ID 가져오기
       const { name, password, imageUrl, isPublic, description } = req.body;
-      
+
       // 요청 형식 검증
       if (!name || typeof isPublic !== "boolean") {
         return res.status(400).json({ message: "잘못된 요청입니다" });
@@ -167,7 +170,7 @@ class GroupController {
     }
     catch (error) {
       res.status(500).json({ error: '공개 상태 확인 실패' });
-    }     
+    }
   }
 
   // 7️⃣ 그룹 목록 조회 (GET /groups)

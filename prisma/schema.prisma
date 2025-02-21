@@ -16,7 +16,7 @@ datasource db {
 model Group {
   id            Int      @id @default(autoincrement()) // 기본키, 자동 증가
   name          String // 그룹 이름
-  imageUrl      String? // 그룹 이미지 (선택사항)
+  imageUrl      String? // 그룹 이미지 (Image 모델의 url을 참조)
   description   String? // 그룹 설명 (선택사항)
   isPublic      Boolean  @default(true)
   password      String? // 비공개 그룹일 경우 비밀번호
@@ -27,7 +27,11 @@ model Group {
   creationBadge Boolean  @default(false) // 생성 배지
   likeBadge     Boolean  @default(false) // 좋아요 배지
 
-  post Post[] // 1:N 관계 설정 (Group -> Posts)
+  // 관계 설정 (1:N)
+  post Post[]
+
+  // Image와 관계 설정 (1:1 관계처럼 동작하지만, Prisma에서는 직접 참조 불가)
+  image Image? @relation(fields: [imageUrl], references: [url])
 }
 
 model Post {
@@ -36,7 +40,7 @@ model Post {
   nickname     String // 작성자 닉네임
   title        String // 제목
   content      String // 게시글 내용
-  imageUrl     String? // 이미지 url
+  imageUrl     String? // 이미지 URL (Image 모델의 url을 참조)
   postPassword String // 게시글 수정·삭제용 패스워드 추가
   isPublic     Boolean   @default(true) // 공개 여부
   createdAt    DateTime  @default(now()) // 업데이트 시간 자동 반영
@@ -50,6 +54,9 @@ model Post {
   // 관계 설정 (Group 모델과 연결)
   group   Group     @relation(fields: [groupId], references: [id])
   commnet Comment[] // 1:N 관계 설정 (Post -> Comment)
+
+  // Image와 관계 설정 (1:1 관계처럼 동작하지만, Prisma에서는 직접 참조 불가)
+  image Image? @relation(fields: [imageUrl], references: [url])
 }
 
 model Comment {
@@ -63,4 +70,14 @@ model Comment {
 
   // 관계 설정 (Post 모델과 연결)
   post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Image {
+  id        String   @id @default(uuid()) // 고유 ID (UUID 사용)
+  url       String   @unique // 이미지 URL (Group과 Post가 참조하는 필드)
+  createdAt DateTime @default(now()) // 업로드 시간
+
+  // Group과 Post 모델에서 참조 가능
+  groups Group[]
+  posts  Post[]
 }

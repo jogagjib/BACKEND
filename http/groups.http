@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### 2. 특정 그룹 조회 (GET api/groups/:id)
-GET http://localhost:4000/api/groups/3
+GET http://localhost:4000/api/groups/4
 
 ### 3. 그룹 수정 (PUT api/groups/:id) 
 PUT http://localhost:4000/api/groups/4
@@ -19,7 +19,7 @@ Content-Type: application/json
 {
   "name": "Updated Node.js Group",
   "password": "secure123",
-  "imageUrl": "https://example.com/image.png",
+  "imageUrl": "/uploads/1740133051010.jpg",
   "isPublic": true,
   "description": "새로운 소개글"
 }

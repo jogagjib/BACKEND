@@ -10,4 +10,4 @@ Content-Type: image/jpeg
 --boundary123--
 
 ### 업로드 확인용
-GET http://localhost:4000//uploads/1740127013514.jpg
+GET http://localhost:4000/uploads/1740134351951.jpg
