@@ -1,0 +1,13 @@
+### 이미지 업로드 테스트
+POST http://localhost:4000/api/image
+Content-Type: multipart/form-data; boundary=boundary123
+
+--boundary123
+Content-Disposition: form-data; name="image"; filename="test-image.jpg"
+Content-Type: image/jpeg
+
+< ../original.jpg
+--boundary123--
+
+### 업로드 확인용
+GET http://localhost:4000//uploads/1740127013514.jpg
